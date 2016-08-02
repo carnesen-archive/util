@@ -1,0 +1,32 @@
+{
+  "name": "@carnesen/util",
+  "description": "Utilities for JavaScript applications",
+  "title": "util",
+  "version": "0.0.1",
+  "author": {
+    "name": "Chris Arnesen",
+    "email": "chris.arnesen@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carnesen/util.git"
+  },
+  "bugs": {
+    "url": "https://github.com/carnesen/util/issues"
+  },
+  "homepage": "https://github.com/carnesen/util",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint src --config carnesen",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "npm run lint && npm run test:server",
+    "test:server": "cross-env NODE_ENV=test mocha src/**/__tests__/**/*.test.js"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "cross-env": "1.0.8",
+    "eslint": "3.0.0",
+    "eslint-config-carnesen": "1.0.2",
+    "mocha": "2.5.3"
+  }
+}
