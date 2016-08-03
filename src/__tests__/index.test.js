@@ -1,7 +1,8 @@
+'use strict';
 
 require('chai').should();
 
-const util = require('../index');
+const util = require('../..');
 
 describe('tests', function () {
 

@@ -1,8 +1,8 @@
 {
   "name": "@carnesen/util",
   "description": "Utilities for JavaScript applications",
-  "title": "util",
   "version": "0.0.1",
+  "main": "src/index.js",
   "author": {
     "name": "Chris Arnesen",
     "email": "chris.arnesen@gmail.com"
