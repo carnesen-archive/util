@@ -19,14 +19,14 @@
   "scripts": {
     "lint": "eslint src --config carnesen",
     "lint:fix": "npm run lint -- --fix",
-    "test": "npm run lint && npm run test:server",
-    "test:server": "cross-env NODE_ENV=test mocha src/**/__tests__/**/*.test.js"
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "mocha src/**/__tests__/**/*.test.js"
   },
+  "dependencies": {},
   "devDependencies": {
     "chai": "3.5.0",
-    "cross-env": "1.0.8",
-    "eslint": "3.0.0",
+    "eslint": "3.4.0",
     "eslint-config-carnesen": "1.0.2",
-    "mocha": "2.5.3"
+    "mocha": "3.0.2"
   }
 }

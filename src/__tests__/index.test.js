@@ -4,6 +4,14 @@ require('chai').should();
 
 const util = require('../..');
 
+function succeed(arg1, arg2, callback) {
+  callback(null, arg1, arg2);
+}
+
+function fail(arg, callback) {
+  callback(new Error(arg));
+}
+
 describe('tests', function () {
 
   it('isArray return true if an array is passed', function () {
@@ -52,19 +60,11 @@ describe('tests', function () {
 
   it('promisify returns a promise that is fulfilled on success', function () {
 
-    function succeed(arg1, arg2, callback) {
-      callback(null, [arg1, arg2]);
-    }
-
     return util.promisify(succeed)('foo', 'bar')
-      .then(ret => ret.should.eql(['foo', 'bar']));
+      .then(ret => ret.should.eql('foo'));
   });
 
   it('promisify returns a promise that is rejected on error', function () {
-
-    function fail(arg, callback) {
-      callback(new Error(arg));
-    }
 
     return util.promisify(fail)('foo')
       .then(() => {
@@ -74,6 +74,11 @@ describe('tests', function () {
       .catch(err => {
         err.message.should.equal('foo');
       });
+  });
+
+  it('promisify returns an array if returnArray is true', function () {
+    return util.promisify(succeed, { returnArray: true })('foo', 'bar')
+      .then(ret => ret.should.eql(['foo', 'bar']));
   });
 
 });

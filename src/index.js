@@ -9,11 +9,15 @@ function isBoolean(value) {
 }
 
 function isDefined(value) {
-  return typeof value !== 'undefined';
+  return !isUndefined(value);
 }
 
 function isEmptyObject(value) {
-  return isObject(value) && Object.keys(value).length === 0 && value.constructor === Object
+  return isObject(value) && Object.keys(value).length === 0 && value.constructor === Object;
+}
+
+function isFunction(value) {
+  return typeof value === 'function';
 }
 
 function isObject(value) {
@@ -25,7 +29,17 @@ function isString(value) {
 }
 
 function makeExpectedError(name, typeString) {
-  return new Error('Expected argument "' + name + '" to be ' + typeString);
+  const an = startsWithVowel(typeString) ? 'an' : 'a';
+  const message = `Expected argument "${name}" to be ${an} ${typeString}`;
+  return new Error(message);
+}
+
+function startsWithVowel(str) {
+  return (/^[aeiou]$/i).test(str);
+}
+
+function isUndefined(value) {
+  return typeof value === 'undefined';
 }
 
 module.exports = {
@@ -46,27 +60,40 @@ module.exports = {
 
   isEmptyObject,
 
-  isFunction(value) {
-    return typeof value === 'function';
-  },
+  isFunction,
 
   isString,
 
-  promisify(func) {
+  isUndefined,
+
+  promisify(func, options) {
+    options = options || {};
     return (...args) => new Promise((resolve, reject) => {
-      func(...args, (err, ret) => {
+      func(...args, (err, ...rets) => {
         if (err) {
           reject(err);
         } else {
-          resolve(ret);
+          if (options.returnArray) {
+            resolve([...rets]);
+          } else {
+            resolve([...rets][0]);
+          }
         }
       });
     });
   },
 
+  startsWithVowel,
+
   throwIf(condition, message) {
     if (condition) {
       throw new Error(message);
+    }
+  },
+
+  throwIfEmptyObject(value, name) {
+    if (isEmptyObject(value)) {
+      throw makeExpectedError(name, 'not to be an empty object');
     }
   },
 
@@ -78,37 +105,55 @@ module.exports = {
 
   throwIfNotArray(value, name = 'value') {
     if (!isArray(value)) {
-      throw makeExpectedError(name, 'an array');
+      throw makeExpectedError(name, 'array');
     }
   },
 
   throwIfNotBoolean(value, name = 'value') {
     if (!isBoolean(value)) {
-      throw makeExpectedError(name, 'a boolean');
+      throw makeExpectedError(name, 'boolean');
     }
   },
 
   throwIfNotFunction(value, name = 'value') {
     if (!isFunction(value)) {
-      throw makeExpectedError(name, 'a function');
+      throw makeExpectedError(name, 'function');
     }
   },
 
   throwIfNotObject(value, name = 'value') {
     if (!isObject(value)) {
-      throw makeExpectedError(name, 'an object');
+      throw makeExpectedError(name, 'object');
     }
   },
 
   throwIfNotString(value, name = 'value') {
     if (!isString(value)) {
-      throw makeExpectedError(name, 'a string');
+      throw makeExpectedError(name, 'string');
+    }
+  },
+
+  throwIfNotNonEmptyObject(value, name = 'value') {
+    if (!(isObject(value) && !isEmptyObject(value))) {
+      throw makeExpectedError(name, 'non-empty object');
+    }
+  },
+
+  throwIfNotPositiveLengthString(value, name = 'value') {
+    if (!(isString(value) && value.length > 0)) {
+      throw makeExpectedError(name, 'string with length > 0');
+    }
+  },
+
+  throwIfDefined(value, name = 'value') {
+    if (isDefined(value)) {
+      throw makeExpectedError(name, 'undefined value');
     }
   },
 
   throwIfUndefined(value, name = 'value') {
-    if (!isDefined(value)) {
-      throw makeExpectedError(name, 'defined');
+    if (isUndefined(value)) {
+      throw makeExpectedError(name, 'defined value');
     }
   }
 
