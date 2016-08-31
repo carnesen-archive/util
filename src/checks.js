@@ -65,6 +65,7 @@ module.exports = {
   isDefined,
   isEmptyObject,
   isFunction,
+  isObject,
   isString,
   isUndefined,
 

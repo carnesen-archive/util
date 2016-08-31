@@ -67,7 +67,9 @@ function waitForNonEvent(emitter, name, interval) {
         emitter,
         name,
         callback(value) {
-          reject(value);
+          const err = new Error(`Emitter emitted event "${name}"`);
+          err.value = value;
+          reject(err);
         }
       },
       timeout: {

@@ -50,11 +50,11 @@ describe('waitForNonEvent', function (){
       .then(() => {
         throw new Error('An error message that is not the event data');
       })
-      .catch(ret => {
+      .catch(err => {
         const elapsedTime = Date.now() - initialTime;
         elapsedTime.should.be.above(30);
         elapsedTime.should.be.below(100);
-        ret.should.eql(data);
+        err.should.be.an.instanceOf(Error);
       });
   });
 
