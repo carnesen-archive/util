@@ -2,12 +2,14 @@
 
 const debug = require('debug');
 
+const { throwIfNotFunction } = require('./checks');
+
 const levels = ['debug', 'info', 'warn', 'error'];
 
 function getLevelIndex(level) {
   const levelIndex = levels.indexOf(level);
   if (levelIndex === -1) {
-    throw new Error(`Invalid level "${ level }"`)
+    throw new Error(`Invalid level "${level}"`);
   }
   return levelIndex;
 }
@@ -20,6 +22,7 @@ module.exports = function createLogger(name, options) {
   let _levelIndex = getLevelIndex(options.level || 'info');
 
   function register(logger) {
+    throwIfNotFunction(logger);
     _registeredLoggers.push(logger);
     let registered = true;
     return function deregister() {
@@ -28,7 +31,7 @@ module.exports = function createLogger(name, options) {
       }
       const index = _registeredLoggers.indexOf(logger);
       _registeredLoggers.splice(index, 1);
-    }
+    };
   }
 
   function setLevel(level) {
