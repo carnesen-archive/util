@@ -1,7 +1,5 @@
 'use strict';
 
-require('chai').should();
-
 const checks = require('../checks');
 
 function succeed(arg1, arg2, callback) {
