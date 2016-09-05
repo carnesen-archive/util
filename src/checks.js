@@ -36,9 +36,9 @@ function isString(value) {
   return typeof value === 'string';
 }
 
-function makeExpectedError(name, typeString) {
+function makeExpectedError(value, name, typeString) {
   const an = startsWithVowel(typeString) ? 'an' : 'a';
-  const message = `Expected argument "${name}" to be ${an} ${typeString}`;
+  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}`;
   return new Error(message);
 }
 
@@ -96,7 +96,7 @@ module.exports = {
 
   throwIfEmptyObject(value, name) {
     if (isEmptyObject(value)) {
-      throw makeExpectedError(name, 'not to be an empty object');
+      throw makeExpectedError(value, name, 'not to be an empty object');
     }
   },
 
@@ -108,61 +108,61 @@ module.exports = {
 
   throwIfNotArray(value, name = 'value') {
     if (!isArray(value)) {
-      throw makeExpectedError(name, 'array');
+      throw makeExpectedError(value, name, 'array');
     }
   },
 
   throwIfNotBoolean(value, name = 'value') {
     if (!isBoolean(value)) {
-      throw makeExpectedError(name, 'boolean');
+      throw makeExpectedError(value, name, 'boolean');
     }
   },
 
   throwIfNotFunction(value, name = 'value') {
     if (!isFunction(value)) {
-      throw makeExpectedError(name, 'function');
+      throw makeExpectedError(value, name, 'function');
     }
   },
 
   throwIfNotObject(value, name = 'value') {
     if (!isObject(value)) {
-      throw makeExpectedError(name, 'object');
+      throw makeExpectedError(value, name, 'object');
     }
   },
 
   throwIfNotPositiveNumber(value, name = 'value') {
     if (!isPositiveNumber(value)) {
-      throw makeExpectedError(name, 'positive number');
+      throw makeExpectedError(value, name, 'positive number');
     }
   },
 
   throwIfNotString(value, name = 'value') {
     if (!isString(value)) {
-      throw makeExpectedError(name, 'string');
+      throw makeExpectedError(value, name, 'string');
     }
   },
 
   throwIfNotNonEmptyObject(value, name = 'value') {
     if (!(isObject(value) && !isEmptyObject(value))) {
-      throw makeExpectedError(name, 'non-empty object');
+      throw makeExpectedError(value, name, 'non-empty object');
     }
   },
 
   throwIfNotPositiveLengthString(value, name = 'value') {
     if (!(isString(value) && value.length > 0)) {
-      throw makeExpectedError(name, 'string with length > 0');
+      throw makeExpectedError(value, name, 'string with length > 0');
     }
   },
 
   throwIfDefined(value, name = 'value') {
     if (isDefined(value)) {
-      throw makeExpectedError(name, 'undefined value');
+      throw makeExpectedError(value, name, 'undefined value');
     }
   },
 
   throwIfUndefined(value, name = 'value') {
     if (isUndefined(value)) {
-      throw makeExpectedError(name, 'defined value');
+      throw makeExpectedError(value, name, 'defined value');
     }
   }
 
