@@ -4,7 +4,7 @@ const sinon = require('sinon');
 
 const createLogger = require('../createLogger');
 
-describe.only('createLogger', function (){
+describe('createLogger', function (){
 
   it('debug logs by default', function () {
     // TODO

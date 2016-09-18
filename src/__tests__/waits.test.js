@@ -1,6 +1,6 @@
 'use strict';
 
-const { waitForEvent, waitForNonEvent } = require('../waits');
+const { delay, waitForEvent, waitForNonEvent } = require('../waits');
 
 const interval = 50;
 const data = 'foo';
@@ -69,4 +69,13 @@ describe('waitForNonEvent', function (){
 
   });
 
+});
+
+describe('delay', function () {
+  it('resolves the elapsed time after the specified interval', function () {
+    return delay(50).then(elapsedTime => {
+      elapsedTime.should.be.above(30);
+      elapsedTime.should.be.below(70);
+    });
+  })
 });

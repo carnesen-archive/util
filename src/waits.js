@@ -81,7 +81,15 @@ function waitForNonEvent(emitter, name, interval) {
 
 }
 
+function delay(interval) {
+  const startTime = Date.now();
+  return new Promise(resolve =>
+    setTimeout(() => resolve(Date.now() - startTime), interval)
+  );
+}
+
 module.exports = {
+  delay,
   waitForEvent,
   waitForNonEvent
 };
