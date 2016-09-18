@@ -77,5 +77,5 @@ describe('delay', function () {
       elapsedTime.should.be.above(30);
       elapsedTime.should.be.below(70);
     });
-  })
+  });
 });
