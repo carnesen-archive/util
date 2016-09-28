@@ -1,8 +1,4 @@
-'use strict';
+export * from './checks'
+export * from './waits'
 
-const checks = require('./checks');
-const waits = require('./waits');
-
-module.exports = Object.assign({
-  createLogger: require('./createLogger')
-}, checks, waits);
+export { default as createLogger } from './createLogger'

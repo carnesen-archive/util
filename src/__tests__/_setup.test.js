@@ -1,2 +1,3 @@
+import { should } from 'chai'
 
-require('chai').should();
+should()

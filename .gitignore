@@ -1,6 +1,9 @@
 # Log files
 *.log*
 
+# build artifacts
+lib/
+
 # Dependency directory
 node_modules/
 
