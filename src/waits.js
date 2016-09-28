@@ -50,7 +50,7 @@ function waitForEvent(emitter, name, interval) {
       timeout: {
         interval,
         callback() {
-          const message = `Timed out after ${interval} milliseconds waiting for event "${name}"`;
+          const message = `Timed out after ${ interval } milliseconds waiting for event "${ name }"`;
           reject(new Error(message));
         }
       }
@@ -67,7 +67,7 @@ function waitForNonEvent(emitter, name, interval) {
         emitter,
         name,
         callback(value) {
-          const err = new Error(`Emitter emitted event "${name}"`);
+          const err = new Error(`Emitter emitted event "${ name }"`);
           err.value = value;
           reject(err);
         }

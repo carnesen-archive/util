@@ -38,7 +38,7 @@ function isString(value) {
 
 function makeExpectedError(value, name, typeString) {
   const an = startsWithVowel(typeString) ? 'an' : 'a';
-  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}`;
+  const message = `Expected argument "${ name }" to be ${ an } ${ typeString }. Got ${ value }`;
   return new Error(message);
 }
 
@@ -48,6 +48,12 @@ function startsWithVowel(str) {
 
 function isUndefined(value) {
   return typeof value === 'undefined';
+}
+
+function throwIfNotNonEmptyString(value, name = 'value') {
+  if (!(isString(value) && value.length > 0)) {
+    throw makeExpectedError(value, name, 'non-empty string');
+  }
 }
 
 module.exports = {
@@ -148,11 +154,9 @@ module.exports = {
     }
   },
 
-  throwIfNotPositiveLengthString(value, name = 'value') {
-    if (!(isString(value) && value.length > 0)) {
-      throw makeExpectedError(value, name, 'string with length > 0');
-    }
-  },
+  throwIfNotNonEmptyString,
+
+  throwIfNotPositiveLengthString: throwIfNotNonEmptyString,
 
   throwIfDefined(value, name = 'value') {
     if (isDefined(value)) {
