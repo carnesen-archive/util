@@ -3,7 +3,6 @@ import sinon from 'sinon'
 import createLogger from '../createLogger'
 
 describe('createLogger', function () {
-
   it('debug logs by default', function () {
     // TODO
   })
