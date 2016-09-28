@@ -1,7 +1,7 @@
 {
   "name": "@carnesen/util",
   "description": "Utilities for JavaScript applications",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "lib/index.js",
   "scripts": {
     "build:commonjs": "babel src --out-dir lib --ignore *.test.js",
@@ -45,6 +45,9 @@
   "homepage": "https://github.com/carnesen/util",
   "license": "MIT",
   "standard": {
-    "globals": [ "describe", "it" ]
+    "globals": [
+      "describe",
+      "it"
+    ]
   }
 }
