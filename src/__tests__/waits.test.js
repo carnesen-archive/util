@@ -1,81 +1,73 @@
-'use strict';
+import { delay, waitForEvent, waitForNonEvent } from '../waits'
 
-const { delay, waitForEvent, waitForNonEvent } = require('../waits');
-
-const interval = 50;
-const data = 'foo';
+const interval = 50
+const data = 'foo'
 
 const emitter = {
-  once(name, callback) {
-    setTimeout(() => callback('foo'), interval);
+  once (name, callback) {
+    setTimeout(() => callback('foo'), interval)
   },
-  removeListener() {}
-};
+  removeListener () {}
+}
 
-describe('waitForEvent', function (){
-
+describe('waitForEvent', function () {
   it('returns a promise that resolves later', function () {
-    const initialTime = Date.now();
+    const initialTime = Date.now()
     return waitForEvent(emitter, 'does not matter')
       .then(ret => {
-        const elapsedTime = Date.now() - initialTime;
-        elapsedTime.should.be.above(30);
-        elapsedTime.should.be.below(100);
-        ret.should.eql(data);
-      });
-  });
+        const elapsedTime = Date.now() - initialTime
+        elapsedTime.should.be.above(30)
+        elapsedTime.should.be.below(100)
+        ret.should.eql(data)
+      })
+  })
 
   it('returns a promise that rejects if interval is set', function () {
-    const initialTime = Date.now();
+    const initialTime = Date.now()
     return waitForEvent(emitter, 'does not matter', interval / 2)
       .then(() => {
-        throw new Error('An error message that does not start with "Timed out"');
+        throw new Error('An error message that does not start with "Timed out"')
       })
       .catch(err => {
-        const elapsedTime = Date.now() - initialTime;
-        elapsedTime.should.be.above(interval / 4);
-        elapsedTime.should.be.below(interval);
-        err.message.startsWith('Timed out').should.equal(true);
-      });
+        const elapsedTime = Date.now() - initialTime
+        elapsedTime.should.be.above(interval / 4)
+        elapsedTime.should.be.below(interval)
+        err.message.startsWith('Timed out').should.equal(true)
+      })
+  })
+})
 
-  });
-
-});
-
-describe('waitForNonEvent', function (){
-
+describe('waitForNonEvent', function () {
   it('returns a promise that rejects if an event arrives', function () {
-    const initialTime = Date.now();
+    const initialTime = Date.now()
     return waitForNonEvent(emitter, 'does not matter', interval * 2)
       .then(() => {
-        throw new Error('An error message that is not the event data');
+        throw new Error('An error message that is not the event data')
       })
       .catch(err => {
-        const elapsedTime = Date.now() - initialTime;
-        elapsedTime.should.be.above(30);
-        elapsedTime.should.be.below(100);
-        err.should.be.an.instanceOf(Error);
-      });
-  });
+        const elapsedTime = Date.now() - initialTime
+        elapsedTime.should.be.above(30)
+        elapsedTime.should.be.below(100)
+        err.should.be.an.instanceOf(Error)
+      })
+  })
 
   it('returns a promise that resolves if the interval times out', function () {
-    const initialTime = Date.now();
+    const initialTime = Date.now()
     return waitForNonEvent(emitter, 'does not matter', interval / 2)
       .then(() => {
-        const elapsedTime = Date.now() - initialTime;
-        elapsedTime.should.be.above(interval / 4);
-        elapsedTime.should.be.below(interval);
-      });
-
-  });
-
-});
+        const elapsedTime = Date.now() - initialTime
+        elapsedTime.should.be.above(interval / 4)
+        elapsedTime.should.be.below(interval)
+      })
+  })
+})
 
 describe('delay', function () {
   it('resolves the elapsed time after the specified interval', function () {
     return delay(50).then(elapsedTime => {
-      elapsedTime.should.be.above(30);
-      elapsedTime.should.be.below(70);
-    });
-  });
-});
+      elapsedTime.should.be.above(30)
+      elapsedTime.should.be.below(70)
+    })
+  })
+})
