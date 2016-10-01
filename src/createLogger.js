@@ -2,7 +2,7 @@ import debug from 'debug'
 
 import { throwIfNotFunction } from './checks'
 
-const levels = ['debug', 'info', 'warn', 'error']
+const levels = ['debug', 'info', 'warn', 'error', 'none']
 
 function getLevelIndex (level) {
   const levelIndex = levels.indexOf(level)
