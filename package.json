@@ -1,7 +1,7 @@
 {
   "name": "@carnesen/util",
   "description": "Utilities for JavaScript applications",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "lib/index.js",
   "scripts": {
     "build:commonjs": "babel src --out-dir lib --ignore *-test.js",
