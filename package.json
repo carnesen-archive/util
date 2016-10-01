@@ -4,7 +4,7 @@
   "version": "0.0.6",
   "main": "lib/index.js",
   "scripts": {
-    "build:commonjs": "babel src --out-dir lib --ignore '*-test.js'",
+    "build:commonjs": "babel src --out-dir lib --ignore *-test.js",
     "build": "npm run clean && npm run build:commonjs",
     "clean": "rimraf lib",
     "lint": "standard 'src/**/*.js'",
@@ -12,8 +12,8 @@
     "preversion": "npm test",
     "version": "npm run build",
     "postversion": "git push && git push --tags && npm publish",
-    "test": "npm run lint && npm run test:unit",
-    "test:unit": "mocha --compilers js:babel-register 'src/**/*-test.js'"
+    "test": "npm run lint && npm run test:unit && npm run build",
+    "test:unit": "mocha --compilers js:babel-register src/**/*-test.js"
   },
   "dependencies": {
     "@carnesen/checks": "0.0.1"
