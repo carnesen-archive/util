@@ -105,3 +105,9 @@ describe('delay', function () {
     })
   })
 })
+
+describe('makeMethodName', function () {
+  it('does the right thing', function () {
+    util.makeMethodName('foo BAR').should.equal('fooBar')
+  })
+})

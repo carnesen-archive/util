@@ -99,3 +99,12 @@ export function delay (interval) {
     setTimeout(() => resolve(Date.now() - startTime), interval)
   )
 }
+
+export function capitalizeFirstLetter (string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+export function makeMethodName (string) {
+  const parts = string.split(/[ -]/).map(part => part.toLowerCase())
+  return `${parts[0]}${parts.slice(1).map(capitalizeFirstLetter).join('')}`
+}
