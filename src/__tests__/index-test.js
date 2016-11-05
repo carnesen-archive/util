@@ -1,7 +1,4 @@
-import { should } from 'chai'
 import * as util from '../index'
-
-should()
 
 const interval = 50
 const data = 'foo'

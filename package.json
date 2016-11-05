@@ -13,23 +13,24 @@
     "version": "npm run build",
     "postversion": "git push && git push --tags && npm publish",
     "test": "npm run lint && npm run test:unit && npm run build",
-    "test:unit": "mocha --compilers js:babel-register src/**/*-test.js"
+    "test:unit": "mocha --require .before-tests.js src/**/*-test.js"
   },
   "dependencies": {
-    "@carnesen/checks": "0.0.1"
+    "@carnesen/checks": "0.0.2"
   },
   "devDependencies": {
-    "babel-cli": "6.16.0",
-    "babel-preset-es2015": "6.16.0",
-    "babel-register": "6.16.3",
+    "babel-cli": "6.18.0",
+    "babel-preset-es2015": "6.18.0",
+    "babel-register": "6.18.0",
     "chai": "3.5.0",
-    "eslint": "3.8.0",
-    "eslint-config-carnesen": "1.0.4",
+    "eslint": "3.9.1",
+    "eslint-config-carnesen": "1.0.5",
     "mocha": "3.1.2",
     "rimraf": "2.5.4"
   },
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "author": {
     "name": "Chris Arnesen",
@@ -43,11 +44,5 @@
     "url": "https://github.com/carnesen/util/issues"
   },
   "homepage": "https://github.com/carnesen/util",
-  "license": "MIT",
-  "standard": {
-    "globals": [
-      "describe",
-      "it"
-    ]
-  }
+  "license": "MIT"
 }
