@@ -15,7 +15,7 @@ function succeed (arg1, arg2, callback) {
 }
 
 function fail (arg, callback) {
-  callback(new Error(arg))
+  callback(arg, arg)
 }
 
 describe('promisify', function () {
@@ -28,16 +28,21 @@ describe('promisify', function () {
     return util.promisify(fail)('foo')
       .then(() => {
         // this should not be called
-        throw new Error('Test failed')
+        throw new Error('should not be thrown')
       })
-      .catch(err => {
-        err.message.should.equal('foo')
+      .catch(ex => {
+        ex.should.equal('foo')
       })
   })
 
-  it('returns an array if returnArray is true', function () {
-    return util.promisify(succeed, { returnArray: true })('foo', 'bar')
+  it('resolves an array if resolveArray is true', function () {
+    return util.promisify(succeed, { resolveArray: true })('foo', 'bar')
       .then(ret => ret.should.eql(['foo', 'bar']))
+  })
+
+  it('returns an array if resolveArray is true', function () {
+    return util.promisify(fail, { rejectArray: true })('foo')
+      .catch(ex => ex.should.eql(['foo', 'foo']))
   })
 })
 

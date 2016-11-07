@@ -8,9 +8,13 @@ export function promisify (func, options) {
   return (...args) => new Promise((resolve, reject) => {
     func(...args, (err, ...rets) => {
       if (err) {
-        reject(err)
+        if (options.rejectArray) {
+          reject([err, ...rets])
+        } else {
+          reject(err)
+        }
       } else {
-        if (options.returnArray) {
+        if (options.resolveArray) {
           resolve([...rets])
         } else {
           resolve([...rets][0])
