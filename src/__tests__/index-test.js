@@ -116,3 +116,12 @@ describe('delay', function () {
     })
   })
 })
+
+describe('print and print2', function () {
+  it('print', function () {
+    util.print('foo')
+  })
+  it('print2', function () {
+    util.print2('foo')
+  })
+})

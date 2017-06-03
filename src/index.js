@@ -126,8 +126,14 @@ function delay (interval) {
 }
 
 module.exports = {
-  promisify,
   delay,
+  print (...args) {
+    console.log(...args) // eslint-disable-line no-console
+  },
+  print2 (...args) {
+    console.error(...args) // eslint-disable-line no-console
+  },
+  promisify,
   waitForEvent,
   waitForNonEvent,
 }
