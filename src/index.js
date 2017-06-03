@@ -4,7 +4,7 @@ const {
   throwIfNotFunction,
   throwIfNotNonEmptyString,
   isDefined,
-  throwIfNotPositiveNumber
+  throwIfNotPositiveNumber,
 } = require('@carnesen/checks')
 
 function promisify (func, options) {
@@ -29,7 +29,7 @@ function promisify (func, options) {
   })
 }
 
-function attachTimedEventCallback ({ event, timeout }) {
+function attachTimedEventCallback ({event, timeout}) {
   throwIfNotFunction(event.emitter.once, 'event.emitter.once')
   throwIfNotFunction(event.emitter.removeListener, 'event.emitter.removeListener')
   throwIfNotNonEmptyString(event.name, 'event.name')
@@ -69,15 +69,15 @@ function waitForEvent (emitter, name, interval) {
         name,
         callback (value) {
           resolve(value)
-        }
+        },
       },
       timeout: {
         interval,
         callback () {
           const message = `Timed out after ${interval} milliseconds waiting for event "${name}"`
           reject(new Error(message))
-        }
-      }
+        },
+      },
     })
   })
 }
@@ -92,12 +92,12 @@ function waitForNonEvent (emitter, name, interval) {
           const err = new Error(`Emitter emitted event "${name}"`)
           err.value = value
           reject(err)
-        }
+        },
       },
       timeout: {
         interval,
-        callback: resolve
-      }
+        callback: resolve,
+      },
     })
   })
 }
@@ -113,5 +113,5 @@ module.exports = {
   promisify,
   delay,
   waitForEvent,
-  waitForNonEvent
+  waitForNonEvent,
 }

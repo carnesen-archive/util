@@ -8,7 +8,7 @@ const emitter = {
   once (name, callback) {
     setTimeout(() => callback('foo'), interval)
   },
-  removeListener () {}
+  removeListener () {},
 }
 
 function succeed (arg1, arg2, callback) {
@@ -37,12 +37,12 @@ describe('promisify', function () {
   })
 
   it('resolves an array if resolveArray is true', function () {
-    return util.promisify(succeed, { resolveArray: true })('foo', 'bar')
+    return util.promisify(succeed, {resolveArray: true})('foo', 'bar')
       .then(ret => ret.should.eql(['foo', 'bar']))
   })
 
   it('returns an array if resolveArray is true', function () {
-    return util.promisify(fail, { rejectArray: true })('foo')
+    return util.promisify(fail, {rejectArray: true})('foo')
       .catch(ex => ex.should.eql(['foo', 'foo']))
   })
 })
