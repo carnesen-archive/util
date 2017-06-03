@@ -1,4 +1,5 @@
-import * as util from '../index'
+'use strict'
+const util = require('../index')
 
 const interval = 50
 const data = 'foo'
@@ -105,11 +106,5 @@ describe('delay', function () {
       elapsedTime.should.be.above(30)
       elapsedTime.should.be.below(70)
     })
-  })
-})
-
-describe('makeMethodName', function () {
-  it('does the right thing', function () {
-    util.makeMethodName('foo BAR').should.equal('fooBar')
   })
 })

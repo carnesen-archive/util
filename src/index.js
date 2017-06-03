@@ -1,8 +1,13 @@
+'use strict'
 
-import { throwIfNotFunction, throwIfNotNonEmptyString,
-  isDefined, throwIfNotPositiveNumber } from '@carnesen/checks'
+const {
+  throwIfNotFunction,
+  throwIfNotNonEmptyString,
+  isDefined,
+  throwIfNotPositiveNumber
+} = require('@carnesen/checks')
 
-export function promisify (func, options) {
+function promisify (func, options) {
   throwIfNotFunction(func, 'func')
   options = options || {}
   return (...args) => new Promise((resolve, reject) => {
@@ -56,7 +61,7 @@ function attachTimedEventCallback ({ event, timeout }) {
   event.emitter.once(event.name, eventHandler)
 }
 
-export function waitForEvent (emitter, name, interval) {
+function waitForEvent (emitter, name, interval) {
   return new Promise((resolve, reject) => {
     attachTimedEventCallback({
       event: {
@@ -77,7 +82,7 @@ export function waitForEvent (emitter, name, interval) {
   })
 }
 
-export function waitForNonEvent (emitter, name, interval) {
+function waitForNonEvent (emitter, name, interval) {
   return new Promise((resolve, reject) => {
     attachTimedEventCallback({
       event: {
@@ -97,18 +102,16 @@ export function waitForNonEvent (emitter, name, interval) {
   })
 }
 
-export function delay (interval) {
+function delay (interval) {
   const startTime = Date.now()
   return new Promise(resolve =>
     setTimeout(() => resolve(Date.now() - startTime), interval)
   )
 }
 
-export function capitalizeFirstLetter (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
-
-export function makeMethodName (string) {
-  const parts = string.split(/[ -]/).map(part => part.toLowerCase())
-  return `${parts[0]}${parts.slice(1).map(capitalizeFirstLetter).join('')}`
+module.exports = {
+  promisify,
+  delay,
+  waitForEvent,
+  waitForNonEvent
 }
