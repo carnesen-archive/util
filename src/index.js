@@ -51,96 +51,78 @@ function isUndefined (value) {
   return typeof value === 'undefined'
 }
 
-function throwIfNotNonEmptyString (value, name = 'value') {
+function assertNonEmptyString (value, name = 'value') {
   if (!(isString(value) && value.length > 0)) {
     throw makeExpectedError(value, name, 'non-empty string')
   }
 }
 
-function throwIf (condition, message) {
-  if (condition) {
-    throw new Error(message)
-  }
-}
-
-function throwIfEmptyObject (value, name) {
-  if (isEmptyObject(value)) {
-    throw makeExpectedError(value, name, 'not to be an empty object')
-  }
-}
-
-function throwIfNot (condition, message) {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
-function throwIfNotArray (value, name = 'value') {
+function assertArray (value, name = 'value') {
   if (!isArray(value)) {
     throw makeExpectedError(value, name, 'array')
   }
 }
 
-function throwIfNotBoolean (value, name = 'value') {
+function assertBoolean (value, name = 'value') {
   if (!isBoolean(value)) {
     throw makeExpectedError(value, name, 'boolean')
   }
 }
 
-function throwIfNotFunction (value, name = 'value') {
+function assertFunction (value, name = 'value') {
   if (!isFunction(value)) {
     throw makeExpectedError(value, name, 'function')
   }
 }
 
-function throwIfNotObject (value, name = 'value') {
+function assertObject (value, name = 'value') {
   if (!isObject(value)) {
     throw makeExpectedError(value, name, 'object')
   }
 }
 
-function throwIfNotPositiveNumber (value, name = 'value') {
+function assertPositiveNumber (value, name = 'value') {
   if (!isPositiveNumber(value)) {
     throw makeExpectedError(value, name, 'positive number')
   }
 }
 
-function throwIfNotString (value, name = 'value') {
+function assertString (value, name = 'value') {
   if (!isString(value)) {
     throw makeExpectedError(value, name, 'string')
   }
 }
 
-function throwIfNotNonEmptyObject (value, name = 'value') {
+function assertNonEmptyObject (value, name = 'value') {
   if (!(isObject(value) && !isEmptyObject(value))) {
     throw makeExpectedError(value, name, 'non-empty object')
   }
 }
 
-function throwIfDefined (value, name = 'value') {
+function assertUndefined (value, name = 'value') {
   if (isDefined(value)) {
     throw makeExpectedError(value, name, 'undefined value')
   }
 }
 
-function throwIfUndefined (value, name = 'value') {
+function assertDefined (value, name = 'value') {
   if (isUndefined(value)) {
     throw makeExpectedError(value, name, 'defined value')
   }
 }
 
-function throwIfNotValidSemver (value, name = 'value') {
+function assertSemver (value, name = 'value') {
   if (!semver.valid(value)) {
     throw makeExpectedError(value, name)
   }
 }
 
 function promisify (func, options = {}) {
-  throwIfNotFunction(func, 'func')
-  throwIfNotObject(options, 'options')
+  assertFunction(func, 'func')
+  assertObject(options, 'options')
   const {resolveMultiple = [], rejectMultiple = []} = options
-  throwIfNotArray(resolveMultiple, 'options.resolveMultiple')
-  throwIfNotArray(rejectMultiple, 'options.rejectMultiple')
+  assertArray(resolveMultiple, 'options.resolveMultiple')
+  assertArray(rejectMultiple, 'options.rejectMultiple')
   return function (...args) {
     return new Promise(executor)
     function executor (resolve, reject) {
@@ -172,14 +154,14 @@ function promisify (func, options = {}) {
 }
 
 function attachTimedEventCallback ({event, timeout}) {
-  throwIfNotFunction(event.emitter.once, 'event.emitter.once')
-  throwIfNotFunction(event.emitter.removeListener, 'event.emitter.removeListener')
-  throwIfNotNonEmptyString(event.name, 'event.name')
-  throwIfNotFunction(event.callback, 'event.callback')
-  throwIfNotFunction(timeout.callback, 'timeout.callback')
+  assertFunction(event.emitter.once, 'event.emitter.once')
+  assertFunction(event.emitter.removeListener, 'event.emitter.removeListener')
+  assertNonEmptyString(event.name, 'event.name')
+  assertFunction(event.callback, 'event.callback')
+  assertFunction(timeout.callback, 'timeout.callback')
 
   if (isDefined(timeout.interval)) {
-    throwIfNotPositiveNumber(timeout.interval, 'timeout.interval')
+    assertPositiveNumber(timeout.interval, 'timeout.interval')
   }
 
   let timeoutId
@@ -274,20 +256,17 @@ module.exports = {
   print,
   print2,
   promisify,
-  throwIf,
-  throwIfDefined,
-  throwIfEmptyObject,
-  throwIfNot,
-  throwIfNotArray,
-  throwIfNotBoolean,
-  throwIfNotNonEmptyObject,
-  throwIfNotNonEmptyString,
-  throwIfUndefined,
-  throwIfNotValidSemver,
-  throwIfNotString,
-  throwIfNotObject,
-  throwIfNotPositiveNumber,
-  throwIfNotFunction,
+  assertUndefined,
+  assertArray,
+  assertBoolean,
+  assertDefined,
+  assertFunction,
+  assertNonEmptyObject,
+  assertNonEmptyString,
+  assertObject,
+  assertPositiveNumber,
+  assertSemver,
+  assertString,
   startsWithVowel,
   waitForEvent,
   waitForNonEvent,
