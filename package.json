@@ -12,7 +12,8 @@
     "test:unit": "mocha --opts test/mocha.opts"
   },
   "dependencies": {
-    "@carnesen/checks": "0.0.5"
+    "@carnesen/checks": "0.0.5",
+    "semver": "^5.3.0"
   },
   "devDependencies": {
     "chai": "4.0.1",

@@ -1,13 +1,139 @@
 'use strict'
+const semver = require('semver')
 
-const {
-  throwIfNotArray,
-  throwIfNotFunction,
-  throwIfNotObject,
-  throwIfNotNonEmptyString,
-  isDefined,
-  throwIfNotPositiveNumber,
-} = require('@carnesen/checks')
+function makeExpectedError (value, name, typeString) {
+  const an = startsWithVowel(typeString) ? 'an' : 'a'
+  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}`
+  return new TypeError(message)
+}
+
+function startsWithVowel (str) {
+  return (/^[aeiou]$/i).test(str)
+}
+
+function isArray (value) {
+  return Array.isArray(value)
+}
+
+function isBoolean (value) {
+  return typeof value === 'boolean'
+}
+
+function isDefined (value) {
+  return !isUndefined(value)
+}
+
+function isEmptyObject (value) {
+  return isObject(value) && Object.keys(value).length === 0 && value.constructor === Object
+}
+
+function isFunction (value) {
+  return typeof value === 'function'
+}
+
+function isNumber (value) {
+  return typeof value === 'number' && !isNaN(value)
+}
+
+function isObject (value) {
+  return value === Object(value)
+}
+
+function isPositiveNumber (value) {
+  return isNumber(value) && value > 0
+}
+
+function isString (value) {
+  return typeof value === 'string'
+}
+
+function isUndefined (value) {
+  return typeof value === 'undefined'
+}
+
+function throwIfNotNonEmptyString (value, name = 'value') {
+  if (!(isString(value) && value.length > 0)) {
+    throw makeExpectedError(value, name, 'non-empty string')
+  }
+}
+
+function throwIf (condition, message) {
+  if (condition) {
+    throw new Error(message)
+  }
+}
+
+function throwIfEmptyObject (value, name) {
+  if (isEmptyObject(value)) {
+    throw makeExpectedError(value, name, 'not to be an empty object')
+  }
+}
+
+function throwIfNot (condition, message) {
+  if (!condition) {
+    throw new Error(message)
+  }
+}
+
+function throwIfNotArray (value, name = 'value') {
+  if (!isArray(value)) {
+    throw makeExpectedError(value, name, 'array')
+  }
+}
+
+function throwIfNotBoolean (value, name = 'value') {
+  if (!isBoolean(value)) {
+    throw makeExpectedError(value, name, 'boolean')
+  }
+}
+
+function throwIfNotFunction (value, name = 'value') {
+  if (!isFunction(value)) {
+    throw makeExpectedError(value, name, 'function')
+  }
+}
+
+function throwIfNotObject (value, name = 'value') {
+  if (!isObject(value)) {
+    throw makeExpectedError(value, name, 'object')
+  }
+}
+
+function throwIfNotPositiveNumber (value, name = 'value') {
+  if (!isPositiveNumber(value)) {
+    throw makeExpectedError(value, name, 'positive number')
+  }
+}
+
+function throwIfNotString (value, name = 'value') {
+  if (!isString(value)) {
+    throw makeExpectedError(value, name, 'string')
+  }
+}
+
+function throwIfNotNonEmptyObject (value, name = 'value') {
+  if (!(isObject(value) && !isEmptyObject(value))) {
+    throw makeExpectedError(value, name, 'non-empty object')
+  }
+}
+
+function throwIfDefined (value, name = 'value') {
+  if (isDefined(value)) {
+    throw makeExpectedError(value, name, 'undefined value')
+  }
+}
+
+function throwIfUndefined (value, name = 'value') {
+  if (isUndefined(value)) {
+    throw makeExpectedError(value, name, 'defined value')
+  }
+}
+
+function throwIfNotValidSemver (value, name = 'value') {
+  if (!semver.valid(value)) {
+    throw makeExpectedError(value, name)
+  }
+}
 
 function promisify (func, options = {}) {
   throwIfNotFunction(func, 'func')
@@ -125,15 +251,44 @@ function delay (interval) {
   )
 }
 
+function print (...args) {
+  console.log(...args) // eslint-disable-line no-console
+}
+
+function print2 (...args) {
+  console.error(...args) // eslint-disable-line no-console
+}
+
 module.exports = {
   delay,
-  print (...args) {
-    console.log(...args) // eslint-disable-line no-console
-  },
-  print2 (...args) {
-    console.error(...args) // eslint-disable-line no-console
-  },
+  isArray,
+  isBoolean,
+  isDefined,
+  isEmptyObject,
+  isFunction,
+  isPositiveNumber,
+  isNumber,
+  isObject,
+  isString,
+  isUndefined,
+  print,
+  print2,
   promisify,
+  throwIf,
+  throwIfDefined,
+  throwIfEmptyObject,
+  throwIfNot,
+  throwIfNotArray,
+  throwIfNotBoolean,
+  throwIfNotNonEmptyObject,
+  throwIfNotNonEmptyString,
+  throwIfUndefined,
+  throwIfNotValidSemver,
+  throwIfNotString,
+  throwIfNotObject,
+  throwIfNotPositiveNumber,
+  throwIfNotFunction,
+  startsWithVowel,
   waitForEvent,
   waitForNonEvent,
 }
