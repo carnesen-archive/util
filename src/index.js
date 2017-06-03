@@ -1,32 +1,48 @@
 'use strict'
 
 const {
+  throwIfNotArray,
   throwIfNotFunction,
+  throwIfNotObject,
   throwIfNotNonEmptyString,
   isDefined,
   throwIfNotPositiveNumber,
 } = require('@carnesen/checks')
 
-function promisify (func, options) {
+function promisify (func, options = {}) {
   throwIfNotFunction(func, 'func')
-  options = options || {}
-  return (...args) => new Promise((resolve, reject) => {
-    func(...args, (err, ...rets) => {
-      if (err) {
-        if (options.rejectArray) {
-          reject([err, ...rets])
-        } else {
+  throwIfNotObject(options, 'options')
+  const {resolveMultiple = [], rejectMultiple = []} = options
+  throwIfNotArray(resolveMultiple, 'options.resolveMultiple')
+  throwIfNotArray(rejectMultiple, 'options.rejectMultiple')
+  return function (...args) {
+    return new Promise(executor)
+    function executor (resolve, reject) {
+      func(...args, callback)
+      function callback (err, ...returnValues) {
+        if (err) {
+          let i = 0
+          for (let returnValueName of rejectMultiple) {
+            err[returnValueName] = returnValues[i]
+            i++
+          }
           reject(err)
-        }
-      } else {
-        if (options.resolveArray) {
-          resolve([...rets])
         } else {
-          resolve([...rets][0])
+          if (resolveMultiple.length > 0) {
+            const returnValue = {}
+            let i = 0
+            for (let returnValueName of resolveMultiple) {
+              returnValue[returnValueName] = returnValues[i]
+              i++
+            }
+            resolve(returnValue)
+          } else {
+            resolve(returnValues[0])
+          }
         }
       }
-    })
-  })
+    }
+  }
 }
 
 function attachTimedEventCallback ({event, timeout}) {

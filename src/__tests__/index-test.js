@@ -16,34 +16,42 @@ function succeed (arg1, arg2, callback) {
 }
 
 function fail (arg, callback) {
-  callback(arg, arg)
+  callback(new Error(arg), arg)
 }
 
 describe('promisify', function () {
-  it('returns a promise that is fulfilled on success', function () {
-    return util.promisify(succeed)('foo', 'bar')
-      .then(ret => ret.should.eql('foo'))
+  it('returns a promise that is fulfilled on success', async function () {
+    const returnValue = await util.promisify(succeed)('foo', 'bar')
+    returnValue.should.eql('foo')
   })
 
-  it('returns a promise that is rejected on error', function () {
-    return util.promisify(fail)('foo')
-      .then(() => {
-        // this should not be called
-        throw new Error('should not be thrown')
-      })
-      .catch(ex => {
-        ex.should.equal('foo')
-      })
+  it('returns a promise that is rejected on error', async function () {
+    try {
+      await util.promisify(fail)('foo')
+      throw new Error('should not be thrown')
+    } catch (ex) {
+      ex.message.should.equal('foo')
+    }
   })
 
-  it('resolves an array if resolveArray is true', function () {
-    return util.promisify(succeed, {resolveArray: true})('foo', 'bar')
-      .then(ret => ret.should.eql(['foo', 'bar']))
+  it('resolves an object if resolveMultiple is an array', async function () {
+    const returnValue = await util.promisify(succeed, {resolveMultiple: ['arg1', 'arg2']})('foo', 'bar')
+    returnValue.should.deep.equal({arg1: 'foo', arg2: 'bar'})
   })
 
-  it('returns an array if resolveArray is true', function () {
-    return util.promisify(fail, {rejectArray: true})('foo')
-      .catch(ex => ex.should.eql(['foo', 'foo']))
+  it('rejects an object with properties if rejectMultiple is an array', async function () {
+    try {
+      await util.promisify(fail, {rejectMultiple: ['arg1']})('foo')
+    } catch (ex) {
+      ex.arg1.should.equal('foo')
+    }
+  })
+
+  it('throws if rejectMultiple is not an array', function () {
+    function throws () {
+      util.promisify(fail, {rejectMultiple: 'not an array'})
+    }
+    throws.should.throw()
   })
 })
 
