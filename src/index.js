@@ -11,9 +11,8 @@ function stripWhitespace (str) {
   return str.replace(/[\n\r ]/g, '')
 }
 
-function makeExpectedError (value, name, typeString) {
-  const an = startsWithVowel(typeString) ? 'an' : 'a'
-  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}.`
+function createTypeError (name, description) {
+  const message = `Expected ${name} to be ${description}`
   return new TypeError(message)
 }
 
@@ -59,67 +58,67 @@ function isUndefined (value) {
 
 function assertNonEmptyString (value, name = 'value') {
   if (!(isString(value) && value.length > 0)) {
-    throw makeExpectedError(value, name, 'non-empty string')
+    throw createTypeError(name, 'a non-empty string')
   }
 }
 
 function assertArray (value, name = 'value') {
   if (!isArray(value)) {
-    throw makeExpectedError(value, name, 'array')
+    throw createTypeError(name, 'an array')
   }
 }
 
 function assertBoolean (value, name = 'value') {
   if (!isBoolean(value)) {
-    throw makeExpectedError(value, name, 'boolean')
+    throw createTypeError(name, 'a boolean')
   }
 }
 
 function assertFunction (value, name = 'value') {
   if (!isFunction(value)) {
-    throw makeExpectedError(value, name, 'function')
+    throw createTypeError(name, 'a function')
   }
 }
 
 function assertObject (value, name = 'value') {
   if (!isObject(value)) {
-    throw makeExpectedError(value, name, 'object')
+    throw createTypeError(name, 'an object')
   }
 }
 
 function assertPositiveNumber (value, name = 'value') {
   if (!isPositiveNumber(value)) {
-    throw makeExpectedError(value, name, 'positive number')
+    throw createTypeError(name, 'a positive number')
   }
 }
 
 function assertString (value, name = 'value') {
   if (!isString(value)) {
-    throw makeExpectedError(value, name, 'string')
+    throw createTypeError(name, 'a string')
   }
 }
 
 function assertNonEmptyObject (value, name = 'value') {
   if (!(isObject(value) && !isEmptyObject(value))) {
-    throw makeExpectedError(value, name, 'non-empty object')
+    throw createTypeError(name, 'a non-empty object')
   }
 }
 
 function assertUndefined (value, name = 'value') {
   if (isDefined(value)) {
-    throw makeExpectedError(value, name, 'undefined value')
+    throw createTypeError(name, 'undefined')
   }
 }
 
 function assertDefined (value, name = 'value') {
   if (isUndefined(value)) {
-    throw makeExpectedError(value, name, 'defined value')
+    throw createTypeError(name, 'defined')
   }
 }
 
 function assertSemver (value, name = 'value') {
   if (!semver.valid(value)) {
-    throw makeExpectedError(value, name)
+    throw createTypeError(name, 'a semver string')
   }
 }
 
@@ -260,7 +259,7 @@ module.exports = {
   assertSemver,
   assertString,
   camelCase,
-  stripWhitespace,
+  createTypeError,
   delay,
   isArray,
   isBoolean,
@@ -279,4 +278,5 @@ module.exports = {
   startsWithVowel,
   waitForEvent,
   waitForNonEvent,
+  stripWhitespace,
 }
