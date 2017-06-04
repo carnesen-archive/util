@@ -1,14 +1,18 @@
 'use strict'
 const semver = require('semver')
 
-function makeExpectedError (value, name, typeString) {
-  const an = startsWithVowel(typeString) ? 'an' : 'a'
-  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}`
-  return new TypeError(message)
-}
-
 function startsWithVowel (str) {
   return (/^[aeiou]$/i).test(str)
+}
+
+function stripWhitespace (str) {
+  return str.replace(/[\n\r ]/g, '')
+}
+
+function makeExpectedError (value, name, typeString) {
+  const an = startsWithVowel(typeString) ? 'an' : 'a'
+  const message = `Expected argument "${name}" to be ${an} ${typeString}. Got ${value}.`
+  return new TypeError(message)
 }
 
 function isArray (value) {
@@ -242,6 +246,18 @@ function print2 (...args) {
 }
 
 module.exports = {
+  assertUndefined,
+  assertArray,
+  assertBoolean,
+  assertDefined,
+  assertFunction,
+  assertNonEmptyObject,
+  assertNonEmptyString,
+  assertObject,
+  assertPositiveNumber,
+  assertSemver,
+  assertString,
+  stripWhitespace,
   delay,
   isArray,
   isBoolean,
@@ -256,17 +272,6 @@ module.exports = {
   print,
   print2,
   promisify,
-  assertUndefined,
-  assertArray,
-  assertBoolean,
-  assertDefined,
-  assertFunction,
-  assertNonEmptyObject,
-  assertNonEmptyString,
-  assertObject,
-  assertPositiveNumber,
-  assertSemver,
-  assertString,
   startsWithVowel,
   waitForEvent,
   waitForNonEvent,
