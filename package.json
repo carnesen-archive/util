@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@carnesen/checks": "0.0.5",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.kebabcase": "^4.1.1",
     "semver": "^5.3.0"
   },
   "devDependencies": {

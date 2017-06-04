@@ -1,5 +1,7 @@
 'use strict'
 const semver = require('semver')
+const kebabCase = require('lodash.kebabcase')
+const camelCase = require('lodash.camelcase')
 
 function startsWithVowel (str) {
   return (/^[aeiou]$/i).test(str)
@@ -257,6 +259,7 @@ module.exports = {
   assertPositiveNumber,
   assertSemver,
   assertString,
+  camelCase,
   stripWhitespace,
   delay,
   isArray,
@@ -269,6 +272,7 @@ module.exports = {
   isObject,
   isString,
   isUndefined,
+  kebabCase,
   print,
   print2,
   promisify,
