@@ -39,8 +39,13 @@ describe(__filename, function () {
     (() => util.assertDefined(undefined, 'foo')).should.throw(TypeError)
   })
 
-  it('assertValidSemver should throw if not a valid semver', function () {
+  it('assertSemver should throw if not a valid semver', function () {
     util.assertSemver('1.2.3');
     (() => util.assertSemver('asdf')).should.throw(/Expected/)
+  })
+
+  it('assertNonEmptyArray should throw if not a non-empty array', function () {
+    ;
+    (() => util.assertNonEmptyArray([])).should.throw(/Expected/)
   })
 })

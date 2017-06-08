@@ -68,6 +68,11 @@ function assertArray (value, name = 'value') {
   }
 }
 
+function assertNonEmptyArray (value, name = 'value') {
+  assertArray(value, name)
+  if (value.length === 0) throw createTypeError(name, 'a non-empty array')
+}
+
 function assertBoolean (value, name = 'value') {
   if (!isBoolean(value)) {
     throw createTypeError(name, 'a boolean')
@@ -252,6 +257,7 @@ module.exports = {
   assertBoolean,
   assertDefined,
   assertFunction,
+  assertNonEmptyArray,
   assertNonEmptyObject,
   assertNonEmptyString,
   assertObject,
