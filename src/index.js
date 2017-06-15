@@ -52,6 +52,16 @@ function isString (value) {
   return typeof value === 'string'
 }
 
+function isKebabCasedString (value) {
+  return isString(value) && kebabCase(value) === value
+}
+
+function assertKebabCasedString (value, name = 'value') {
+  if (!isKebabCasedString(value)) {
+    throw createTypeError(name, 'a kebab-cased string')
+  }
+}
+
 function isUndefined (value) {
   return typeof value === 'undefined'
 }
@@ -257,6 +267,7 @@ module.exports = {
   assertBoolean,
   assertDefined,
   assertFunction,
+  assertKebabCasedString,
   assertNonEmptyArray,
   assertNonEmptyObject,
   assertNonEmptyString,
@@ -272,6 +283,7 @@ module.exports = {
   isDefined,
   isEmptyObject,
   isFunction,
+  isKebabCasedString,
   isPositiveNumber,
   isNumber,
   isObject,

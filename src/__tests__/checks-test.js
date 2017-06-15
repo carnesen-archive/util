@@ -45,7 +45,11 @@ describe(__filename, function () {
   })
 
   it('assertNonEmptyArray should throw if not a non-empty array', function () {
-    ;
     (() => util.assertNonEmptyArray([])).should.throw(/Expected/)
+  })
+
+  it('assertKebabCasedString should throw if not a kebab-cased string', function () {
+    util.assertKebabCasedString('foo-bar');
+    (() => util.assertKebabCasedString('BLARG')).should.throw(/Expected/)
   })
 })
