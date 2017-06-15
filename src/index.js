@@ -62,6 +62,16 @@ function assertKebabCasedString (value, name = 'value') {
   }
 }
 
+function isCamelCasedString (value) {
+  return isString(value) && camelCase(value) === value
+}
+
+function assertCamelCasedString (value, name = 'value') {
+  if (!isCamelCasedString(value)) {
+    throw createTypeError(name, 'a camel-cased string')
+  }
+}
+
 function isUndefined (value) {
   return typeof value === 'undefined'
 }
@@ -265,6 +275,7 @@ module.exports = {
   assertUndefined,
   assertArray,
   assertBoolean,
+  assertCamelCasedString,
   assertDefined,
   assertFunction,
   assertKebabCasedString,
@@ -280,6 +291,7 @@ module.exports = {
   delay,
   isArray,
   isBoolean,
+  isCamelCasedString,
   isDefined,
   isEmptyObject,
   isFunction,

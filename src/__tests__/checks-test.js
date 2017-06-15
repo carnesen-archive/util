@@ -52,4 +52,9 @@ describe(__filename, function () {
     util.assertKebabCasedString('foo-bar');
     (() => util.assertKebabCasedString('BLARG')).should.throw(/Expected/)
   })
+
+  it('assertCamelCasedString should throw if not a camel-cased string', function () {
+    util.assertCamelCasedString('fooBar');
+    (() => util.assertKebabCasedString('BLARG')).should.throw(/Expected/)
+  })
 })
